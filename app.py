@@ -48,8 +48,12 @@ def load_data():
 def load_villes():
     return pd.read_csv("config.csv")['ville'].tolist()
 
-df = load_data()
-villes = load_villes()
+try:
+    df = load_data()
+    villes = load_villes()
+except Exception as e:
+    st.error(f"Fichier manquant ou mal formaté : {e}")
+    st.stop()
 
 if 'etape' not in st.session_state:
     st.session_state.etape = 'accueil'
@@ -80,18 +84,26 @@ elif st.session_state.etape == 'diagnostic':
     with c2:
         animaux = st.toggle("🐱 J'ai des animaux")
 
-    # Filtrage
+    # Filtrage sécurisé
     recos = df.copy()
-    recos = recos[recos['lieu'] == lieu]
-    if animaux: recos = recos[recos['animaux_safe'] == "Oui"]
-    if expo: recos = recos[recos['lumiere'] == expo]
+    
+    # Sécurité : on ne filtre que si la colonne 'lieu' existe
+    if 'lieu' in recos.columns:
+        recos = recos[recos['lieu'] == lieu]
+    
+    if animaux and 'animaux_safe' in recos.columns:
+        recos = recos[recos['animaux_safe'] == "Oui"]
+        
+    if expo and 'lumiere' in recos.columns:
+        recos = recos[recos['lumiere'] == expo]
 
     st.markdown("---")
     st.subheader(f"✨ Notre sélection {lieu} :")
     
     if recos.empty:
-        st.info("Aucune plante ne correspond exactement. Demandez à nos experts !")
+        st.info("Aucune plante ne correspond exactement. Demandez à nos experts sur place !")
     else:
+        # On affiche les 5 premières plantes trouvées
         for _, row in recos.head(5).iterrows():
             st.markdown(f"""
                 <div class="reco-card">
