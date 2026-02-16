@@ -10,7 +10,7 @@ st.markdown("""
     <style>
     :root { --rouge-pa: #e2001a; }
     .stApp { background-color: #ffffff; }
-    h1, h2, h3 { color: var(--rouge-pa) !important; text-align: center; }
+    h1, h2, h3 { color: var(--rouge-pa) !important; text-align: center; font-family: sans-serif; }
     .reco-card { 
         border: 2px solid var(--rouge-pa); 
         background: #fffafa; 
@@ -24,9 +24,10 @@ st.markdown("""
     .reco-card img {
         border-radius: 10px;
         margin-right: 20px;
-        width: 100px;
-        height: 100px;
+        width: 110px;
+        height: 110px;
         object-fit: cover;
+        background-color: #eee;
     }
     .stButton>button { 
         background-color: var(--rouge-pa) !important; 
@@ -34,6 +35,8 @@ st.markdown("""
         border-radius: 30px !important; 
         width: 100%;
         font-weight: bold !important;
+        border: none !important;
+        height: 50px;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -63,17 +66,17 @@ try:
     df = load_data()
     villes = load_villes()
 except:
-    st.error("Vérifiez que vos fichiers CSV sont bien sur GitHub.")
+    st.error("Erreur de fichiers. Vérifiez plantes.csv et config.csv sur GitHub.")
     st.stop()
 
 if 'etape' not in st.session_state:
     st.session_state.etape = 'accueil'
 
-# --- ÉCRANS ---
+# --- ACCUEIL ---
 if st.session_state.etape == 'accueil':
-    st.write("### 🏠 Bienvenue !")
+    st.write("### 🏠 Bienvenue à la vente !")
     email = st.text_input("Votre email :")
-    ville = st.selectbox("Ville :", villes)
+    ville = st.selectbox("Dans quelle ville êtes-vous ?", villes)
     if st.button("Lancer mon diagnostic"):
         if email and "@" in email:
             st.session_state.email = email
@@ -81,11 +84,12 @@ if st.session_state.etape == 'accueil':
             st.session_state.etape = 'diagnostic'
             st.rerun()
 
+# --- DIAGNOSTIC ---
 elif st.session_state.etape == 'diagnostic':
-    st.write(f"📍 Vente : **{st.session_state.ville}**")
+    st.write(f"📍 Boutique : **{st.session_state.ville}**")
     c1, c2 = st.columns(2)
     with c1:
-        expo = st.radio("Lumière :", ["Ombre", "Vive", "Directe"])
+        expo = st.radio("Lumière chez vous :", ["Ombre", "Vive", "Directe"])
     with c2:
         animaux = st.toggle("🐱 J'ai des animaux")
 
@@ -96,18 +100,23 @@ elif st.session_state.etape == 'diagnostic':
     st.markdown("---")
     
     if recos.empty:
-        st.info("Aucune correspondance exacte. Demandez conseil à nos experts sur place !")
+        st.info("Aucune plante ne correspond exactement. Demandez à nos experts !")
     else:
         for _, row in recos.head(3).iterrows():
-            # Utilisation de l'image réelle ou logo par défaut
-            img_url = row['image_url'] if pd.notna(row['image_url']) else "https://www.plantesaddict.fr/img/logo-plantes-addict.png"
+            # GENERATION AUTOMATIQUE DE L'IMAGE VIA LE NOM
+            # On utilise un service qui génère une image basée sur le nom de la plante
+            nom_plante = row['nom'].replace(' ', ',')
+            img_url = f"https://images.unsplash.com/photo-1545239351-ef35f43d514b?auto=format&fit=crop&w=200&q=80" # Image par défaut (plante verte)
+            
+            # On tente de personnaliser l'image selon le nom
+            auto_img = f"https://source.unsplash.com/200x200/?{nom_plante},plant"
             
             st.markdown(f"""
                 <div class="reco-card">
-                    <img src="{img_url}" onerror="this.src='https://www.plantesaddict.fr/img/logo-plantes-addict.png'"/>
+                    <img src="{auto_img}" onerror="this.src='https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?auto=format&fit=crop&w=200&q=80'"/>
                     <div style="flex-grow:1;">
                         <h3 style="margin:0; text-align:left;">{row['nom']}</h3>
-                        <p style="font-size: 14px; margin-top:10px;">🚿 <b>Entretien :</b> {row['entretien']}</p>
+                        <p style="font-size: 14px; margin-top:5px;">🚿 <b>Entretien :</b> {row['entretien']}</p>
                         <p style="font-size: 14px; background: #fff; padding: 10px; border-radius: 5px; margin-top:5px;">💡 {row['conseil']}</p>
                     </div>
                 </div>
