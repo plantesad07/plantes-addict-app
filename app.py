@@ -25,6 +25,7 @@ st.markdown("""
         border-radius: 30px !important; 
         width: 100%;
         font-weight: bold !important;
+        height: 50px;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -39,30 +40,33 @@ with col_logo_2:
 
 st.title("Votre Coach Main Verte Personnel 🌿")
 
-# --- CHARGEMENT ---
-@st.cache_data
+# --- CHARGEMENT DYNAMIQUE ---
+@st.cache_data(ttl=60) # Rafraîchit les données toutes les minutes
 def load_data():
     return pd.read_csv("plantes.csv")
 
-@st.cache_data
+@st.cache_data(ttl=60)
 def load_villes():
-    return pd.read_csv("config.csv")['ville'].tolist()
+    df_v = pd.read_csv("config.csv")
+    return df_v['ville'].unique().tolist()
 
 try:
     df = load_data()
-    villes = load_villes()
+    villes_list = load_villes()
 except Exception as e:
-    st.error(f"Fichier manquant ou mal formaté : {e}")
+    st.error(f"Erreur de lecture des fichiers : {e}")
     st.stop()
 
 if 'etape' not in st.session_state:
     st.session_state.etape = 'accueil'
 
-# --- ACCUEIL ---
+# --- ÉCRAN 1 : ACCUEIL ---
 if st.session_state.etape == 'accueil':
-    st.write("### 🏠 Bienvenue !")
+    st.write("### 🏠 Bienvenue à la vente !")
     email = st.text_input("Votre email :")
-    ville = st.selectbox("Ville :", villes)
+    # Ici, le code prendra TOUTES les villes du fichier config.csv
+    ville = st.selectbox("Choisissez votre ville :", villes_list)
+    
     if st.button("Lancer mon diagnostic"):
         if email and "@" in email:
             st.session_state.email = email
@@ -70,9 +74,9 @@ if st.session_state.etape == 'accueil':
             st.session_state.etape = 'diagnostic'
             st.rerun()
 
-# --- DIAGNOSTIC ---
+# --- ÉCRAN 2 : DIAGNOSTIC ---
 elif st.session_state.etape == 'diagnostic':
-    st.write(f"📍 Vente : **{st.session_state.ville}**")
+    st.write(f"📍 Boutique : **{st.session_state.ville}**")
     
     st.subheader("Où souhaitez-vous placer vos plantes ?")
     lieu = st.radio("Type d'emplacement :", ["Intérieur", "Extérieur"])
@@ -84,27 +88,29 @@ elif st.session_state.etape == 'diagnostic':
     with c2:
         animaux = st.toggle("🐱 J'ai des animaux")
 
-    # Filtrage sécurisé
+    # FILTRAGE INTELLIGENT
     recos = df.copy()
     
-    # Sécurité : on ne filtre que si la colonne 'lieu' existe
+    # On filtre sur le lieu (Intérieur/Extérieur)
     if 'lieu' in recos.columns:
         recos = recos[recos['lieu'] == lieu]
     
+    # On filtre sur les animaux
     if animaux and 'animaux_safe' in recos.columns:
         recos = recos[recos['animaux_safe'] == "Oui"]
         
+    # On filtre sur la lumière
     if expo and 'lumiere' in recos.columns:
         recos = recos[recos['lumiere'] == expo]
 
     st.markdown("---")
-    st.subheader(f"✨ Notre sélection {lieu} :")
+    st.subheader(f"✨ Notre sélection pour vous :")
     
     if recos.empty:
-        st.info("Aucune plante ne correspond exactement. Demandez à nos experts sur place !")
+        st.info("Aucune plante ne correspond exactement à ce mélange. Demandez à nos experts !")
     else:
-        # On affiche les 5 premières plantes trouvées
-        for _, row in recos.head(5).iterrows():
+        # Affiche toutes les plantes correspondantes de tes factures
+        for _, row in recos.iterrows():
             st.markdown(f"""
                 <div class="reco-card">
                     <h3 style="margin:0; text-align:left;">{row['nom']}</h3>
