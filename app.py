@@ -5,38 +5,26 @@ import os
 # --- CONFIGURATION DE LA PAGE ---
 st.set_page_config(page_title="Plantes Addict - Coach Main Verte", layout="centered")
 
-# --- DESIGN ROUGE PLANTES ADDICT ---
+# --- DESIGN PERSONNALISÉ (ROUGE PLANTES ADDICT) ---
 st.markdown("""
     <style>
-    :root { --rouge-pa: #e2001a; }
     .stApp { background-color: #ffffff; }
-    h1, h2, h3 { color: var(--rouge-pa) !important; text-align: center; font-family: sans-serif; }
-    .reco-card { 
-        border: 2px solid var(--rouge-pa); 
-        background: #fffafa; 
-        padding: 20px; 
-        border-radius: 15px; 
-        margin-bottom: 20px;
-        box-shadow: 2px 4px 10px rgba(0,0,0,0.05);
+    h1, h2, h3 { color: #e2001a !important; text-align: center; }
+    div[data-testid="stExpander"] { border: 2px solid #e2001a; border-radius: 15px; }
+    .stButton>button { 
+        background-color: #e2001a !important; 
+        color: white !important; 
+        border-radius: 30px !important; 
+        width: 100%;
+        height: 50px;
+        font-weight: bold !important;
     }
     .badge-froid {
         background-color: #007bff;
         color: white;
-        padding: 5px 12px;
+        padding: 5px 15px;
         border-radius: 20px;
         font-weight: bold;
-        font-size: 14px;
-        display: inline-block;
-        margin-bottom: 10px;
-    }
-    .stButton>button { 
-        background-color: var(--rouge-pa) !important; 
-        color: white !important; 
-        border-radius: 30px !important; 
-        width: 100%;
-        font-weight: bold !important;
-        height: 50px;
-        border: none !important;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -44,12 +32,12 @@ st.markdown("""
 # --- LOGO CENTRÉ ---
 col_logo_1, col_logo_2, col_logo_3 = st.columns([1, 2, 1])
 with col_logo_2:
-    # Utilisation du lien web direct pour garantir l'affichage du logo
+    # On force l'affichage du logo via ton URL officielle
     st.image("https://www.plantesaddict.fr/img/logo-plantes-addict.png", use_container_width=True)
 
 st.title("Votre Coach Main Verte Personnel 🌿")
 
-# --- CHARGEMENT ---
+# --- CHARGEMENT DES DONNÉES ---
 @st.cache_data(ttl=60)
 def load_data():
     return pd.read_csv("plantes.csv")
@@ -63,7 +51,7 @@ try:
     df = load_data()
     villes_list = load_villes()
 except Exception as e:
-    st.error(f"Fichiers manquants ou mal formatés : {e}")
+    st.error(f"Erreur fichiers : {e}")
     st.stop()
 
 if 'etape' not in st.session_state:
@@ -72,14 +60,17 @@ if 'etape' not in st.session_state:
 # --- ÉCRAN 1 : ACCUEIL ---
 if st.session_state.etape == 'accueil':
     st.write("### 🏠 Bienvenue à la vente !")
-    email = st.text_input("Votre email :")
+    email = st.text_input("Votre email :", placeholder="exemple@email.com")
     ville = st.selectbox("Choisissez votre ville :", villes_list)
+    
     if st.button("Lancer mon diagnostic"):
         if email and "@" in email:
             st.session_state.email = email
             st.session_state.ville = ville
             st.session_state.etape = 'diagnostic'
             st.rerun()
+        else:
+            st.warning("Veuillez entrer une adresse email valide.")
 
 # --- ÉCRAN 2 : DIAGNOSTIC ---
 elif st.session_state.etape == 'diagnostic':
@@ -114,22 +105,17 @@ elif st.session_state.etape == 'diagnostic':
     st.subheader(f"✨ Notre sélection pour vous :")
     
     if recos.empty:
-        st.info("Aucune plante ne correspond exactement. Demandez à nos experts !")
+        st.info("Aucune plante ne correspond exactement à vos critères. Demandez à nos experts !")
     else:
         for _, row in recos.iterrows():
-            froid_info = ""
-            if lieu == "Extérieur" and 'resistance' in row and pd.notna(row['resistance']):
-                froid_info = f'<div class="badge-froid">❄️ Résiste jusqu\'à {row["resistance"]}</div>'
-
-            # AFFICHAGE DE LA CARTE (CORRECTION HTML AJOUTÉE ICI)
-            st.markdown(f"""
-                <div class="reco-card">
-                    {froid_info}
-                    <h3 style="margin:0; text-align:left;">{row['nom']}</h3>
-                    <p style="font-size: 14px; margin-top:10px;">🚿 <b>Entretien :</b> {row['entretien']}</p>
-                    <p style="font-size: 14px; background: #fff; padding: 10px; border-radius: 5px; margin-top:5px;">💡 {row['conseil']}</p>
-                </div>
-            """, unsafe_allow_html=True)
+            with st.container(border=True):
+                # Affichage du badge froid pour l'extérieur
+                if lieu == "Extérieur" and 'resistance' in row and pd.notna(row['resistance']):
+                    st.markdown(f"❄️ **Résistance : {row['resistance']}**")
+                
+                st.subheader(row['nom'])
+                st.write(f"🚿 **Entretien :** {row['entretien']}")
+                st.info(f"💡 {row['conseil']}")
 
     if st.button("🔄 Recommencer"):
         st.session_state.etape = 'accueil'
