@@ -44,12 +44,12 @@ st.markdown("""
 # --- LOGO CENTRÉ ---
 col_logo_1, col_logo_2, col_logo_3 = st.columns([1, 2, 1])
 with col_logo_2:
-    # On utilise ton logo officiel directement pour éviter les erreurs de lien
+    # Utilisation du lien web direct pour garantir l'affichage du logo
     st.image("https://www.plantesaddict.fr/img/logo-plantes-addict.png", use_container_width=True)
 
 st.title("Votre Coach Main Verte Personnel 🌿")
 
-# --- CHARGEMENT DES DONNÉES ---
+# --- CHARGEMENT ---
 @st.cache_data(ttl=60)
 def load_data():
     return pd.read_csv("plantes.csv")
@@ -63,7 +63,7 @@ try:
     df = load_data()
     villes_list = load_villes()
 except Exception as e:
-    st.error(f"Erreur de chargement : {e}")
+    st.error(f"Fichiers manquants ou mal formatés : {e}")
     st.stop()
 
 if 'etape' not in st.session_state:
@@ -114,14 +114,14 @@ elif st.session_state.etape == 'diagnostic':
     st.subheader(f"✨ Notre sélection pour vous :")
     
     if recos.empty:
-        st.info("Aucune plante ne correspond exactement. Demandez à nos experts sur place !")
+        st.info("Aucune plante ne correspond exactement. Demandez à nos experts !")
     else:
         for _, row in recos.iterrows():
             froid_info = ""
             if lieu == "Extérieur" and 'resistance' in row and pd.notna(row['resistance']):
                 froid_info = f'<div class="badge-froid">❄️ Résiste jusqu\'à {row["resistance"]}</div>'
 
-            # --- AFFICHAGE DE LA CARTE (CORRIGÉ) ---
+            # AFFICHAGE DE LA CARTE (CORRECTION HTML AJOUTÉE ICI)
             st.markdown(f"""
                 <div class="reco-card">
                     {froid_info}
