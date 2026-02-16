@@ -2,26 +2,15 @@ import streamlit as st
 import pandas as pd
 import os
 
-# --- CONFIGURATION DE LA PAGE ---
-st.set_page_config(
-    page_title="Plantes Addict - Coach Main Verte", 
-    layout="centered"
-)
+# --- CONFIGURATION ---
+st.set_page_config(page_title="Plantes Addict - Coach Main Verte", layout="centered")
 
-# --- DESIGN PERSONNALISÉ (ROUGE PLANTES ADDICT) ---
+# --- DESIGN ROUGE ---
 st.markdown("""
     <style>
     :root { --rouge-pa: #e2001a; }
     .stApp { background-color: #ffffff; }
-    
-    /* Titres */
-    h1, h2, h3 { 
-        color: var(--rouge-pa) !important; 
-        font-family: 'Helvetica Neue', sans-serif;
-        text-align: center;
-    }
-    
-    /* Cartes de recommandations */
+    h1, h2, h3 { color: var(--rouge-pa) !important; text-align: center; }
     .reco-card { 
         border: 2px solid var(--rouge-pa); 
         background: #fffafa; 
@@ -32,51 +21,24 @@ st.markdown("""
         align-items: center;
         box-shadow: 2px 4px 10px rgba(0,0,0,0.05);
     }
-    
-    /* Image dans la carte */
     .reco-card img {
         border-radius: 10px;
         margin-right: 20px;
         width: 100px;
         height: 100px;
         object-fit: cover;
-        border: 1px solid #eee;
     }
-    
-    /* Texte dans la carte */
-    .reco-content { flex-grow: 1; }
-    
-    /* Boutons */
     .stButton>button { 
         background-color: var(--rouge-pa) !important; 
         color: white !important; 
         border-radius: 30px !important; 
-        border: none !important;
-        padding: 12px 30px !important;
         width: 100%;
         font-weight: bold !important;
-        font-size: 18px !important;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# --- CHARGEMENT DES DONNÉES ---
-@st.cache_data
-def load_data():
-    return pd.read_csv("plantes.csv")
-
-@st.cache_data
-def load_villes():
-    return pd.read_csv("config.csv")['ville'].tolist()
-
-try:
-    df = load_data()
-    villes = load_villes()
-except Exception as e:
-    st.error("Erreur : Assurez-vous que plantes.csv et config.csv sont bien sur GitHub.")
-    st.stop()
-
-# --- ENTÊTE AVEC LOGO CENTRÉ ---
+# --- LOGO CENTRÉ ---
 col_logo_1, col_logo_2, col_logo_3 = st.columns([1, 2, 1])
 with col_logo_2:
     if os.path.exists("logo.png"):
@@ -88,67 +50,72 @@ with col_logo_2:
 
 st.title("Votre Coach Main Verte Personnel 🌿")
 
-# --- GESTION DES ÉTAPES ---
+# --- CHARGEMENT ---
+@st.cache_data
+def load_data():
+    return pd.read_csv("plantes.csv")
+
+@st.cache_data
+def load_villes():
+    return pd.read_csv("config.csv")['ville'].tolist()
+
+try:
+    df = load_data()
+    villes = load_villes()
+except:
+    st.error("Erreur de lecture du fichier CSV.")
+    st.stop()
+
 if 'etape' not in st.session_state:
     st.session_state.etape = 'accueil'
 
-# --- ÉCRAN 1 : ACCUEIL ---
+# --- ACCUEIL ---
 if st.session_state.etape == 'accueil':
-    st.write("### 🏠 Bienvenue à la vente éphémère !")
-    email = st.text_input("Entrez votre email pour recevoir vos conseils :", placeholder="exemple@email.com")
-    ville = st.selectbox("Dans quelle ville êtes-vous aujourd'hui ?", villes)
-    
-    if st.button("Lancer mon diagnostic gratuit"):
-        if email and "@" in email:
+    st.write("### 🏠 Bienvenue !")
+    email = st.text_input("Votre email :")
+    ville = st.selectbox("Ville :", villes)
+    if st.button("Lancer mon diagnostic"):
+        if "@" in email:
             st.session_state.email = email
             st.session_state.ville = ville
             st.session_state.etape = 'diagnostic'
             st.rerun()
-        else:
-            st.warning("Merci d'entrer une adresse email valide.")
 
-# --- ÉCRAN 2 : LE DIAGNOSTIC ---
+# --- DIAGNOSTIC ---
 elif st.session_state.etape == 'diagnostic':
-    st.write(f"📍 Boutique : **{st.session_state.ville}**")
     st.subheader("Quelle plante est faite pour vous ?")
-    
     c1, c2 = st.columns(2)
     with c1:
-        expo = st.radio("Lumière chez vous :", ["Ombre", "Vive", "Directe"])
+        expo = st.radio("Lumière :", ["Ombre", "Vive", "Directe"])
     with c2:
         animaux = st.toggle("🐱 J'ai des animaux")
 
-    # Filtrage des données
     recos = df.copy()
-    if animaux:
-        recos = recos[recos['animaux_safe'] == "Oui"]
-    if expo:
-        recos = recos[recos['lumiere'] == expo]
+    if animaux: recos = recos[recos['animaux_safe'] == "Oui"]
+    if expo: recos = recos[recos['lumiere'] == expo]
 
     st.markdown("---")
-    st.subheader("✨ Nos recommandations pour vous :")
-
+    
     if recos.empty:
-        st.info("Aucune plante ne correspond pile à vos critères. Nos experts sont là pour vous aider !")
+        st.info("Aucune plante ne correspond. Demandez à nos experts !")
     else:
         for _, row in recos.head(3).iterrows():
-            # Utilisation de l'image réelle ou logo par défaut
-            img_url = row['image_url'] if pd.notna(row['image_url']) else "https://www.plantesaddict.fr/img/logo-plantes-addict.png"
+            # PROTECTION ANTI-ERREUR POUR L'IMAGE
+            if 'image_url' in row and pd.notna(row['image_url']):
+                img_url = row['image_url']
+            else:
+                img_url = "https://www.plantesaddict.fr/img/logo-plantes-addict.png"
             
             st.markdown(f"""
                 <div class="reco-card">
-                    <img src="{img_url}" alt="{row['nom']}" />
-                    <div class="reco-content">
+                    <img src="{img_url}" />
+                    <div style="flex-grow:1;">
                         <h3 style="margin:0; text-align:left;">{row['nom']}</h3>
-                        <p style="font-size: 14px; margin-top: 10px;">🚿 <b>Entretien :</b> {row['entretien']}</p>
-                        <p style="font-size: 14px; background: #fff; padding: 10px; border-radius: 5px; margin-top:5px;">💡 <b>Conseil :</b> {row['conseil']}</p>
+                        <p style="font-size: 14px; margin-top:5px;">💡 {row['conseil']}</p>
                     </div>
                 </div>
             """, unsafe_allow_html=True)
 
-    if st.button("🔄 Recommencer le test"):
+    if st.button("🔄 Recommencer"):
         st.session_state.etape = 'accueil'
         st.rerun()
-
-# --- FOOTER ---
-st.markdown("<br><hr><center><p style='color: #999; font-size: 12px;'>© Plantes Addict - Coach Main Verte</p></center>", unsafe_allow_html=True)
