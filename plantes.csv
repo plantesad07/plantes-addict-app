@@ -1,57 +1,36 @@
-nom,categorie,entretien,lumiere,animaux_safe,conseil,lieu
-Bougainvillea Californiana,Grande,Moyen,Directe,Oui,Nécessite beaucoup de soleil pour fleurir.,Extérieur
-Clementino Mini Alberello,Moyenne,Facile,Directe,Oui,Arrosage régulier sans détremper les racines.,Extérieur
-Lemon Mini Alberello,Moyenne,Facile,Directe,Oui,Gros besoin de lumière et engrais agrumes.,Extérieur
-Lemon Alberello,Grande,Moyen,Directe,Oui,Idéal pour terrasse ensoleillée.,Extérieur
-Eucaliptus gunnii Azura,Grande,Facile,Vive,Non,Croissance rapide et feuillage argenté.,Extérieur
-Lavandula Stoechas,Petite,Très Facile,Directe,Oui,Lavande papillon très parfumée.,Extérieur
-Phoenix Canariensis,Grande,Facile,Vive,Oui,Palmier robuste pour extérieur ou véranda.,Extérieur
-Jasminum Polyanthum,Moyenne,Facile,Vive,Oui,Jasmin grimpant au parfum envoûtant.,Extérieur
-Callistemon laevis,Moyenne,Facile,Directe,Oui,Fleurs rouges en forme de rince-bouteille.,Extérieur
-Lavandula Sensational,Petite,Très Facile,Directe,Oui,Variété de lavande très florifère.,Extérieur
-Salvia rosmarinus Prostratus,Petite,Très Facile,Directe,Oui,Romarin rampant idéal pour murets.,Extérieur
-Aloe Safari Sunrise,Petite,Très Facile,Directe,Non,Très peu d'eau beaucoup de soleil.,Extérieur
-Yucca Citrus Twist,Moyenne,Très Facile,Vive,Non,Feuillage panaché très graphique.,Extérieur
-Phormium Black Adder,Moyenne,Facile,Vive,Oui,Lin de Nouvelle-Zélande pour massif moderne.,Extérieur
-Phormium Apricot Queen,Moyenne,Facile,Vive,Oui,Feuillage lumineux abricot.,Extérieur
-Phormium Pink Blush,Moyenne,Facile,Vive,Oui,Bords de feuilles rosés très élégants.,Extérieur
-Cordyline Electric Flash,Moyenne,Facile,Vive,Oui,Feuillage chocolat et crème.,Extérieur
-Cordyline Fantasy,Moyenne,Facile,Vive,Oui,Port élancé et couleurs vives.,Extérieur
-Sempervivum Collection,Petite,Très Facile,Directe,Oui,Plantes grasses pour rocailles ou bacs.,Extérieur
-Alocasia cucullata,Grande,Moyen,Vive,Non,Grandes feuilles en forme de cœur.,Intérieur
-Begonia Beleaf,Petite,Moyen,Mi-ombre,Non,Mix de couleurs de feuillage décoratif.,Intérieur
-Calathea Fusion White,Moyenne,Expert,Ombre,Oui,Marbrure blanche exceptionnelle et rare.,Intérieur
-Calathea mix,Moyenne,Moyen,Mi-ombre,Oui,Mélange de variétés graphiques.,Intérieur
-Chamaedorea elegans,Petite,Facile,Ombre,Oui,Petit palmier increvable en intérieur.,Intérieur
-Chamaerops humilis,Grande,Facile,Directe,Oui,Palmier nain méditerranéen très résistant.,Extérieur
-Coffea arabica,Petite,Moyen,Vive,Non,Le véritable caféier d'intérieur.,Intérieur
-Cordyline Red Star,Moyenne,Facile,Vive,Oui,Cordyline rouge sombre très robuste.,Extérieur
-Ctenanthe Compactstar,Moyenne,Moyen,Mi-ombre,Oui,Feuillage zébré qui bouge le soir.,Intérieur
-Dianthus Oscar,Petite,Facile,Vive,Oui,Oeillets très florifères et colorés.,Extérieur
-Dieffenbachia Mars,Moyenne,Moyen,Mi-ombre,Non,Plante purificatrice au feuillage clair.,Intérieur
-Dieffenbachia Camilla,Moyenne,Moyen,Mi-ombre,Non,Variété compacte au centre blanc.,Intérieur
-Dracaena marginata,Grande,Très Facile,Mi-ombre,Non,Parfait pour les débutants.,Intérieur
-Dracaena mix,Moyenne,Facile,Mi-ombre,Non,Mélange de variétés robustes.,Intérieur
-Dypsis lutescens,Grande,Moyen,Vive,Oui,Le palmier Areca qui humidifie l'air.,Intérieur
-Epipremnum Global Green,Petite,Très Facile,Mi-ombre,Non,Variété de Pothos vert forêt.,Intérieur
-Fatsia japonica,Grande,Facile,Ombre,Oui,L'Aralia du Japon pour coins frais.,Extérieur
-Hedera Mona Lisa,Moyenne,Très Facile,Ombre,Non,Lierre à grandes feuilles brillantes.,Extérieur
-Hedera White Wonder,Petite,Très Facile,Ombre,Non,Lierre panaché de blanc.,Extérieur
-Jasminum pol. rose,Moyenne,Facile,Vive,Oui,Jasmin rosé très parfumé.,Extérieur
-Lilium Sunny Camino,Moyenne,Moyen,Vive,Oui,Lys de jardin à floraison éclatante.,Extérieur
-Maranta Fascinator,Petite,Moyen,Mi-ombre,Oui,Ses nervures rouges sont magnifiques.,Intérieur
-Monstera deliciosa,Grande,Facile,Vive,Non,La plante icône de la jungle urbaine.,Intérieur
-Nephrolepis Green Moment,Moyenne,Moyen,Ombre,Oui,Fougère au vert profond et dense.,Intérieur
-Peperomia Green Gold,Petite,Facile,Vive,Oui,Petite plante grasse au bord doré.,Intérieur
-Philodendron Imperial Green,Moyenne,Facile,Mi-ombre,Non,Grandes feuilles vertes imposantes.,Intérieur
-Sansevieria Futura Superba,Moyenne,Très Facile,Ombre,Non,Extrêmement robuste purifie l'air.,Intérieur
-Sansevieria kirkii Friends,Moyenne,Très Facile,Ombre,Non,Forme originale de Sansevieria.,Intérieur
-Spathiphyllum Bingo Cupido,Moyenne,Facile,Mi-ombre,Non,Fleur de lune à fleurs blanches.,Intérieur
-Spathiphyllum Sweet Chico,Moyenne,Facile,Mi-ombre,Non,Variété compacte et florifère.,Intérieur
-Strelitzia nicolai,Grande,Moyen,Vive,Non,Oiseau de paradis géant à fleurs blanches.,Intérieur
-Tradescantia Nanouk,Petite,Très Facile,Vive,Non,Superbes reflets roses et violets.,Intérieur
-Zamioculcas zamiifolia,Moyenne,Très Facile,Ombre,Non,Increvable demande très peu d'eau.,Intérieur
-Zantedeschia mix,Moyenne,Moyen,Vive,Non,Arums colorés élégants.,Extérieur
-Chlorophytum laxum,Petite,Facile,Mi-ombre,Oui,Plante araignée version compacte.,Intérieur
-Philodendron scandens,Moyenne,Facile,Mi-ombre,Non,Lierre de cœur grimpant ou tombant.,Intérieur
-Plantes d intérieur mix,Petite,Facile,Mi-ombre,Non,Sélection de petites plantes vertes.,Intérieur
+nom,categorie,entretien,lumiere,animaux_safe,conseil,lieu,depolluante,salle_de_bain,resistance
+Bougainvillea Californiana,Grande,Moyen,Directe,Oui,Nécessite beaucoup de soleil pour fleurir.,Extérieur,Non,Non,0°C
+Clementino Mini Alberello,Moyenne,Facile,Directe,Oui,Arrosage régulier. Craint le gel fort.,Extérieur,Non,Non,-2°C
+Lemon Alberello,Grande,Moyen,Directe,Oui,Gros besoin de lumière et engrais agrumes.,Extérieur,Non,Non,-3°C
+Eucaliptus gunnii Azura,Grande,Facile,Vive,Non,Feuillage argenté très décoratif.,Extérieur,Oui,Non,-15°C
+Lavandula Stoechas,Petite,Très Facile,Directe,Oui,Lavande papillon adore le plein soleil.,Extérieur,Non,Non,-7°C
+Phoenix Canariensis,Grande,Facile,Vive,Oui,Palmier robuste mais protéger le cœur du gel.,Extérieur,Oui,Non,-8°C
+Jasminum Polyanthum,Moyenne,Facile,Vive,Oui,Parfum envoûtant. À protéger en hiver.,Extérieur,Non,Non,-5°C
+Callistemon laevis,Moyenne,Facile,Directe,Oui,Fleurs rouges originales en brosse.,Extérieur,Non,Non,-6°C
+Salvia rosmarinus Prostratus,Petite,Très Facile,Directe,Oui,Romarin rampant idéal pour murets.,Extérieur,Non,Non,-12°C
+Aloe Safari Sunrise,Petite,Très Facile,Directe,Non,Très peu d'eau. Craint le gel humide.,Extérieur,Non,Non,-4°C
+Yucca Citrus Twist,Moyenne,Très Facile,Vive,Non,Feuillage panaché très graphique.,Extérieur,Oui,Non,-10°C
+Phormium Black Adder,Moyenne,Facile,Vive,Oui,Lin de NZ pour massif moderne.,Extérieur,Non,Non,-10°C
+Cordyline Electric Flash,Moyenne,Facile,Vive,Oui,Feuillage chocolat et crème.,Extérieur,Non,Non,-5°C
+Sempervivum Collection,Petite,Très Facile,Directe,Oui,Increvable. Résiste très bien au gel.,Extérieur,Non,Non,-20°C
+Alocasia cucullata,Grande,Moyen,Vive,Non,Grandes feuilles purifient l'air.,Intérieur,Oui,Oui,10°C
+Begonia Beleaf,Petite,Moyen,Mi-ombre,Non,Évitez de mouiller le feuillage.,Intérieur,Non,Non,10°C
+Calathea Fusion White,Moyenne,Expert,Ombre,Oui,Adore l'humidité ambiante.,Intérieur,Non,Oui,12°C
+Chamaedorea elegans,Petite,Facile,Ombre,Oui,Le palmier idéal pour débuter.,Intérieur,Oui,Oui,10°C
+Chamaerops humilis,Grande,Facile,Directe,Oui,Palmier nain méditerranéen.,Extérieur,Non,Non,-12°C
+Coffea arabica,Petite,Moyen,Vive,Non,Le véritable caféier d'intérieur.,Intérieur,Oui,Non,10°C
+Ctenanthe Compactstar,Moyenne,Moyen,Mi-ombre,Oui,Ses feuilles bougent le soir.,Intérieur,Non,Oui,12°C
+Dianthus Oscar,Petite,Facile,Vive,Oui,Floraison très parfumée.,Extérieur,Non,Non,-15°C
+Dieffenbachia Mars,Moyenne,Moyen,Mi-ombre,Non,Toxique portez des gants.,Intérieur,Oui,Non,12°C
+Dracaena marginata,Grande,Très Facile,Mi-ombre,Non,Parfait pour les débutants.,Intérieur,Oui,Non,12°C
+Dypsis lutescens,Grande,Moyen,Vive,Oui,Excellent purificateur d'air.,Intérieur,Oui,Oui,10°C
+Fatsia japonica,Grande,Facile,Ombre,Oui,Aussi à l'aise dehors que dedans.,Extérieur,Oui,Non,-10°C
+Hedera helix,Moyenne,Très Facile,Ombre,Non,Idéal pour couvrir un mur.,Extérieur,Oui,Non,-20°C
+Maranta Fascinator,Petite,Moyen,Mi-ombre,Oui,Feuillage ultra-graphique.,Intérieur,Non,Oui,12°C
+Monstera deliciosa,Grande,Facile,Vive,Non,La star des intérieurs.,Intérieur,Oui,Non,10°C
+Nephrolepis (Fougère),Moyenne,Moyen,Ombre,Oui,Adore la vapeur de la douche.,Intérieur,Oui,Oui,10°C
+Sansevieria Futura,Moyenne,Très Facile,Ombre,Non,La plante la plus résistante.,Intérieur,Oui,Non,10°C
+Spathiphyllum,Moyenne,Facile,Mi-ombre,Non,Fleurit même avec peu de lumière.,Intérieur,Oui,Oui,12°C
+Strelitzia nicolai,Grande,Moyen,Vive,Non,Oiseau de paradis géant.,Intérieur,Non,Non,5°C
+Tradescantia Nanouk,Petite,Très Facile,Vive,Non,Couleurs violettes magnifiques.,Intérieur,Non,Non,8°C
+Zamioculcas,Moyenne,Très Facile,Ombre,Non,Demande très peu d'eau.,Intérieur,Oui,Non,12°C
