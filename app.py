@@ -22,10 +22,10 @@ st.markdown("""
     }
     .reco-card img {
         border-radius: 10px;
-        margin-right: 15px;
-        width: 120px;
-        height: 120px;
-        object-fit: cover; /* Recadre l'image proprement */
+        margin-right: 20px;
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
     }
     .stButton>button { 
         background-color: var(--rouge-pa) !important; 
@@ -37,10 +37,20 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
+# --- LOGO ---
+# On utilise le logo haute résolution que vous avez fourni
+if os.path.exists("logo.png"):
+    st.image("logo.png", width=250)
+else:
+    st.image("https://www.plantesaddict.fr/img/logo-plantes-addict.png", width=250)
+
+st.title("Votre Coach Main Verte Personnel 🌿")
+
 # --- CHARGEMENT ---
 @st.cache_data
 def load_data():
-    return pd.read_csv("plantes.csv")
+    df = pd.read_csv("plantes.csv")
+    return df
 
 @st.cache_data
 def load_villes():
@@ -49,15 +59,7 @@ def load_villes():
 df = load_data()
 villes = load_villes()
 
-# --- LOGO ---
-if os.path.exists("logo.png"):
-    st.image("logo.png", width=220)
-else:
-    st.image("https://www.plantesaddict.fr/img/logo-plantes-addict.png", width=220)
-
-st.title("Votre Coach Main Verte Personnel 🌿")
-
-# --- NAVIGATION ---
+# --- LOGIQUE ---
 if 'etape' not in st.session_state:
     st.session_state.etape = 'accueil'
 
@@ -73,36 +75,32 @@ if st.session_state.etape == 'accueil':
             st.rerun()
 
 elif st.session_state.etape == 'diagnostic':
-    st.subheader("Vos préférences :")
+    st.subheader("Vos recommandations personnalisées :")
+    
+    # --- FILTRES SIMPLIFIÉS ---
     c1, c2 = st.columns(2)
     with c1:
-        expo = st.radio("Lumière :", ["Ombre", "Vive", "Directe"])
-        taille = st.multiselect("Format :", ["Petite", "Moyenne", "Grande"])
+        expo = st.radio("Lumière chez vous :", ["Ombre", "Vive", "Directe"])
     with c2:
-        animaux = st.toggle("🐱 Spécial Animaux")
+        animaux = st.toggle("🐱 J'ai des animaux")
 
     recos = df.copy()
     if animaux: recos = recos[recos['animaux_safe'] == "Oui"]
     if expo: recos = recos[recos['lumiere'] == expo]
-    if taille: recos = recos[recos['categorie'].isin(taille)]
 
     st.markdown("---")
-    st.subheader("✨ Vos recommandations :")
 
     if recos.empty:
-        st.info("Demandez à nos experts sur place !")
+        st.info("Aucune plante ne correspond pile à vos critères. Nos experts sont là pour vous aider !")
     else:
         for _, row in recos.head(3).iterrows():
-            # SOLUTION AUTOMATIQUE POUR LES IMAGES :
-            # Si 'image_url' n'existe pas ou est vide, on cherche sur Unsplash par nom de plante
-            img_url = row.get('image_url')
-            if pd.isna(img_url) or img_url == "":
-                # On utilise une image générique basée sur le nom de la plante
-                img_url = f"https://source.unsplash.com/featured/?{row['nom'].replace(' ', '')},plant"
+            # GENERATEUR D'IMAGE AUTOMATIQUE SI VIDE
+            nom_plante = row['nom'].replace(' ', '+')
+            img_url = f"https://loremflickr.com/320/320/plant,{nom_plante}/all"
             
             st.markdown(f"""
                 <div class="reco-card">
-                    <img src="{img_url}" />
+                    <img src="{img_url}" alt="Plante" />
                     <div>
                         <h3 style="margin:0; text-align:left;">{row['nom']}</h3>
                         <p style="font-size: 14px; margin-top:5px;">💡 {row['conseil']}</p>
