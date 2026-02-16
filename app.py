@@ -5,7 +5,7 @@ import os
 # --- CONFIGURATION ---
 st.set_page_config(page_title="Plantes Addict - Coach Main Verte", layout="centered")
 
-# --- DESIGN ROUGE PLANTES ADDICT ---
+# --- DESIGN ROUGE ---
 st.markdown("""
     <style>
     :root { --rouge-pa: #e2001a; }
@@ -64,13 +64,13 @@ try:
     df = load_data()
     villes_list = load_villes()
 except Exception as e:
-    st.error(f"Fichiers manquants ou mal formatés : {e}")
+    st.error(f"Erreur fichiers : {e}")
     st.stop()
 
 if 'etape' not in st.session_state:
     st.session_state.etape = 'accueil'
 
-# --- ACCUEIL ---
+# --- ÉCRAN 1 : ACCUEIL ---
 if st.session_state.etape == 'accueil':
     st.write("### 🏠 Bienvenue à la vente !")
     email = st.text_input("Votre email :")
@@ -82,7 +82,7 @@ if st.session_state.etape == 'accueil':
             st.session_state.etape = 'diagnostic'
             st.rerun()
 
-# --- DIAGNOSTIC ---
+# --- ÉCRAN 2 : DIAGNOSTIC ---
 elif st.session_state.etape == 'diagnostic':
     st.write(f"📍 Boutique : **{st.session_state.ville}**")
     
@@ -115,14 +115,14 @@ elif st.session_state.etape == 'diagnostic':
     st.subheader(f"✨ Notre sélection pour vous :")
     
     if recos.empty:
-        st.info("Aucune plante ne correspond exactement à vos critères. Demandez à nos experts !")
+        st.info("Aucune plante ne correspond exactement. Demandez à nos experts !")
     else:
         for _, row in recos.iterrows():
-            # Préparation de l'affichage des degrés
             froid_info = ""
             if lieu == "Extérieur" and 'resistance' in row and pd.notna(row['resistance']):
                 froid_info = f'<div class="badge-froid">❄️ Résiste jusqu\'à {row["resistance"]}</div>'
 
+            # LA CORRECTION EST ICI : unsafe_allow_html=True
             st.markdown(f"""
                 <div class="reco-card">
                     {froid_info}
