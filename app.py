@@ -2,15 +2,15 @@ import streamlit as st
 import pandas as pd
 import os
 
-# --- CONFIGURATION ---
+# --- CONFIGURATION DE LA PAGE ---
 st.set_page_config(page_title="Plantes Addict - Coach Main Verte", layout="centered")
 
-# --- DESIGN ROUGE ---
+# --- DESIGN ROUGE PLANTES ADDICT ---
 st.markdown("""
     <style>
     :root { --rouge-pa: #e2001a; }
     .stApp { background-color: #ffffff; }
-    h1, h2, h3 { color: var(--rouge-pa) !important; text-align: center; }
+    h1, h2, h3 { color: var(--rouge-pa) !important; text-align: center; font-family: sans-serif; }
     .reco-card { 
         border: 2px solid var(--rouge-pa); 
         background: #fffafa; 
@@ -36,6 +36,7 @@ st.markdown("""
         width: 100%;
         font-weight: bold !important;
         height: 50px;
+        border: none !important;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -43,12 +44,12 @@ st.markdown("""
 # --- LOGO CENTRÉ ---
 col_logo_1, col_logo_2, col_logo_3 = st.columns([1, 2, 1])
 with col_logo_2:
-    # On utilise le logo officiel en ligne pour être sûr qu'il s'affiche
+    # On utilise ton logo officiel directement pour éviter les erreurs de lien
     st.image("https://www.plantesaddict.fr/img/logo-plantes-addict.png", use_container_width=True)
 
 st.title("Votre Coach Main Verte Personnel 🌿")
 
-# --- CHARGEMENT ---
+# --- CHARGEMENT DES DONNÉES ---
 @st.cache_data(ttl=60)
 def load_data():
     return pd.read_csv("plantes.csv")
@@ -62,7 +63,7 @@ try:
     df = load_data()
     villes_list = load_villes()
 except Exception as e:
-    st.error(f"Erreur de lecture : {e}")
+    st.error(f"Erreur de chargement : {e}")
     st.stop()
 
 if 'etape' not in st.session_state:
@@ -113,15 +114,14 @@ elif st.session_state.etape == 'diagnostic':
     st.subheader(f"✨ Notre sélection pour vous :")
     
     if recos.empty:
-        st.info("Aucune plante ne correspond exactement. Demandez à nos experts !")
+        st.info("Aucune plante ne correspond exactement. Demandez à nos experts sur place !")
     else:
         for _, row in recos.iterrows():
             froid_info = ""
-            # On affiche le badge froid si c'est une plante d'extérieur
             if lieu == "Extérieur" and 'resistance' in row and pd.notna(row['resistance']):
                 froid_info = f'<div class="badge-froid">❄️ Résiste jusqu\'à {row["resistance"]}</div>'
 
-            # AFFICHAGE DE LA CARTE (Correction unsafe_allow_html ajoutée)
+            # --- AFFICHAGE DE LA CARTE (CORRIGÉ) ---
             st.markdown(f"""
                 <div class="reco-card">
                     {froid_info}
