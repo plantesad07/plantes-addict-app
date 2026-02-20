@@ -13,7 +13,7 @@ st.markdown("""
     h1, h2, h3 { color: #e2001a !important; text-align: center; }
     div[data-testid="stVerticalBlockBorderWrapper"] { 
         border: 2px solid #e2001a !important; border-radius: 15px !important; 
-        padding: 20px !important; background-color: #fffafa !important; 
+        padding: 15px !important; background-color: #fffafa !important; 
         margin-bottom: 10px !important;
     }
     .stButton>button { 
@@ -23,12 +23,13 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# --- LOGO (Correction : On utilise ton fichier logo.png local) ---
-if os.path.exists("logo.png"):
-    st.image("logo.png", use_container_width=True)
-else:
-    # Secours si le fichier n'est pas trouvé
-    st.markdown("<h1 style='font-size: 40px;'>🌿 PLANTES ADDICT</h1>", unsafe_allow_html=True)
+# --- LOGO (Taille réduite à 150px pour mobile) ---
+col_1, col_2, col_3 = st.columns([1, 1, 1])
+with col_2:
+    if os.path.exists("logo.png"):
+        st.image("logo.png", width=150)
+    else:
+        st.image("https://www.plantesaddict.fr/img/logo-plantes-addict.png", width=150)
 
 st.title("Mon Coach Main Verte")
 
@@ -63,9 +64,9 @@ if st.session_state.etape == 'accueil':
         if email and "@" in email:
             if conn:
                 try:
-                    # On force la lecture de l'onglet "Feuille 1" (vu sur ton écran)
+                    # Lecture de l'onglet "Feuille 1"
                     data = conn.read(worksheet="Feuille 1")
-                    # On utilise EXACTEMENT tes titres : Email, Ville, DATE
+                    # Enregistrement avec tes colonnes : Email, Ville, DATE
                     new_row = pd.DataFrame([{
                         "Email": email, 
                         "Ville": ville, 
@@ -73,7 +74,6 @@ if st.session_state.etape == 'accueil':
                     }])
                     updated_df = pd.concat([data, new_row], ignore_index=True)
                     conn.update(worksheet="Feuille 1", data=updated_df)
-                    st.success("Email enregistré !")
                 except Exception as e:
                     st.error(f"Erreur technique : {e}")
             
