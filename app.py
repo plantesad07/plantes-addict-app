@@ -27,7 +27,7 @@ st.markdown("""
 col_1, col_2, col_3 = st.columns([1, 1, 1])
 with col_2:
     if os.path.exists("logo.png"):
-        st.image("logo.png", width=150)
+        st.image("logo.png", width=50)
     else:
         st.image("https://www.plantesaddict.fr/img/logo-plantes-addict.png", width=150)
 
